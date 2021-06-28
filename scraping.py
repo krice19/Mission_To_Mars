@@ -20,13 +20,12 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        hem_image_urls: {"title": title, "Img Url": full_img_url}
+        "hem_image_urls": hem_images(browser)
 
     }
 
-
     browser.quit()
-
+    
     return data
 
 
@@ -106,6 +105,7 @@ def mars_facts():
     return df.to_html()
 
 
+
 def hem_images(browser):
 
     url = 'https://marshemispheres.com/'
@@ -138,11 +138,17 @@ def hem_images(browser):
             img_url = img_soup.find("img", class_="wide-image")["src"]
 
             full_img_url = (main_url + img_url)
+
+            hemisphere_image_urls.append({"title": title, "ImgURL": full_img_url})
+
     
     except BaseException:
         return None
     
-    hemisphere_image_urls.append({"title": title, "Img URL": full_img_url})
+    return hemisphere_image_urls
+    
+
+
 
 if __name__ == "__main__":
     print(scrape_all()
